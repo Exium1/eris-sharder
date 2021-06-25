@@ -323,6 +323,12 @@ class ClusterManager extends EventEmitter {
 
                         if (file && file.file) file.file = Buffer.from(file.file, 'base64');
 
+                        if (file && Array.isArray(file)) {
+                            file.forEach(function(f) {
+                                f.file = Buffer.from(f.file, 'base64');
+                            });
+                        };
+
                         try {
                             response = await this.eris.requestHandler.request(method, url, auth, body, file, _route, short);
                         } catch (err) {

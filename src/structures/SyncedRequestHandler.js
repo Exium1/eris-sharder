@@ -14,6 +14,12 @@ class SyncedRequestHandler {
 
             if (file && file.file) file.file = Buffer.from(file.file).toString('base64');
 
+            if (file && Array.isArray(file)) {
+                file.forEach(function(f) {
+                    f.file = Buffer.from(f.file, 'base64');
+                });
+            };
+
             process.send({ name: 'apiRequest', requestID, method, url, auth, body, file, _route, short });
 
             let timeout = setTimeout(() => {
